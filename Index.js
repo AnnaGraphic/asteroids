@@ -1,5 +1,6 @@
 import { createAsteroidBelt } from './modules/CreateAsteroidBelt.js';
 import { distBetweenPoints } from './modules/DistBetweenPoints.js';
+import { newAsteroid } from './modules/NewAsteroid.js';
 
 const canv = document.getElementById("game-board");
 const ctx = canv.getContext("2d");
@@ -146,12 +147,12 @@ function destroyAsteroid(index) {
 
   // Punkte vergeben und neue Asteroiden erstellen, basierend auf der Größe des zerstörten Asteroiden
   if (r === Math.ceil(roidSize / 2)) {
-    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 4)));
-    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 4)));
+    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 4), level, roidSpd, fps, roidVert, ));
+    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 4), level, roidSpd, fps, roidVert, ));
     score += roidPtsLge;
   } else if (r === Math.ceil(roidSize / 4)) {
-    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 8)));
-    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 8)));
+    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 8), level, roidSpd, fps, roidVert, ));
+    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 8), level, roidSpd, fps, roidVert, ));
     score += roidPtsMed;
   } else {
     score += roidPtsSml;
@@ -266,30 +267,6 @@ function keyUp(ev) {
   }
 }
 
-function newAsteroid(x, y, r) {
-  // Erstellt einen neuen Asteroiden mit den angegebenen Koordinaten und Größe.
-  const lvlMult = 1 + 0.1 * level;
-  const roid = {
-    x: x,
-    y: y,
-    xv:
-      ((Math.random() * roidSpd * lvlMult) / fps) *
-      (Math.random() < 0.5 ? 1 : -1),
-    yv:
-      ((Math.random() * roidSpd * lvlMult) / fps) *
-      (Math.random() < 0.5 ? 1 : -1),
-    a: Math.random() * Math.PI * 2,
-    r: r,
-    offs: [],
-    vert: Math.floor(Math.random() * (roidVert + 1) + roidVert / 2),
-  };
-
-  for (let i = 0; i < roid.vert; i++) {
-    roid.offs.push(Math.random() * roidJag * 2 + 1 - roidJag);
-  }
-
-  return roid;
-}
 
 function newGame() {
   // Setzt das Spiel auf den Anfangszustand zurück.
