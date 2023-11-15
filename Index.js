@@ -1,3 +1,5 @@
+import { createAsteroidBelt } from './modules/CreateAsteroidBelt.js';
+
 const canv = document.getElementById("game-board");
 const ctx = canv.getContext("2d");
 
@@ -113,7 +115,8 @@ let roidsLeft, roidsTotal;
 const localFont = "Courier New";
 
 // Spieleinstellungen einrichten
-let level, lives, roids, score, scoreHigh, ship, text, textAlpha;
+let level, lives, score, scoreHigh, ship, text, textAlpha;
+let roids = [];
 newGame();
 // level: Das aktuelle Level des Spiels.
 // lives: Die Anzahl der verbleibenden Leben des Spielers.
@@ -133,21 +136,6 @@ document.addEventListener("keyup", keyUp);
 setInterval(update, 1000 / fps);
 // Die Funktion update wird mit der Bildwiederholungsrate (fps) aufgerufen, um das Spiel zu aktualisieren.
 
-function createAsteroidBelt() {
-  roids = [];
-  roidsTotal = (roidNum + level) * 7;
-  roidsLeft = roidsTotal;
-  let x, y;
-  for (let i = 0; i < roidNum + level; i++) {
-    do {
-      x = Math.floor(Math.random() * canv.width);
-      y = Math.floor(Math.random() * canv.height);
-    } while (distBetweenPoints(ship.x, ship.y, x, y) < roidSize * 2 + ship.r);
-    // Solange ein neuer Asteroid innerhalb des Raumschiff-Radius generiert wird, wird erneut versucht.
-    roids.push(newAsteroid(x, y, Math.ceil(roidSize / 2)));
-    // Ein neuer Asteroid wird dem roids-Array hinzugefügt.
-  }
-}
 // createAsteroidBelt erstellt eine Anzahl von Asteroiden basierend auf dem aktuellen Level und roidNum.
 
 function destroyAsteroid(index) {
@@ -325,7 +313,7 @@ function newLevel() {
   music.setAsteroidRatio(1);
   text = "Level " + (level + 1);
   textAlpha = 1.0;
-  createAsteroidBelt();
+  createAsteroidBelt(roids, roidsTotal, roidsLeft, roidNum, level, canv, ship, roidSize);
 }
 
 function newShip() {
