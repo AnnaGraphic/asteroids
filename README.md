@@ -1,6 +1,14 @@
 # Asteroids Game in JavaScript
 
-This is a simple implementation of the classic Asteroids game in JavaScript.
+This is a simple implementation of the classic Asteroids game in JavaScript, forked from <https://github.com/Oliverwebdev/Asteroids>.
+
+## Refactoring
+
+- move functions to modules
+- the modules are then imported back into Index.js at the *top* of the file
+- required variables are passed to the modules as arguments
+- in index.js they are called with them
+- some variables must be initialised with value, otherwise they are undefined and throw errors
 
 ## Instructions
 
